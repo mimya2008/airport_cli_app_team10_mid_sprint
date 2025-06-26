@@ -19,7 +19,7 @@ public class HTTPClientCLIApplication {
         String url = scanner.nextLine();
         restClient.setServerURL(url);
 
-        System.out.println("\n===== Airport CLI Menu =====");
+        System.out.println("\n==== Airport CLI Menu ====");
         List<Airport> airports = restClient.getAllAirports();
         airports.forEach(a -> System.out.println(a.getName() + " (" + a.getCode() + ")"));
     }
