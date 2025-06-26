@@ -22,7 +22,7 @@ public class MainTest {
 
     /**
      * Setup mocks for RESTClient and Scanner before each test.
-     * Instantiates the Main CLI with the mocked dependencies.
+     * Instantiates with the mocked dependencies.
      */
     @BeforeEach
     public void setUp() {
