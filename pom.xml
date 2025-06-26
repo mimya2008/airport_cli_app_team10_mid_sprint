@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.1.2</spring-boot.version>
         <junit.jupiter.version>5.11.0</junit.jupiter.version>
-        <mockito.version>5.11.0</mockito.version> <!-- ✅ Unified version -->
+        <mockito.version>5.18.0</mockito.version> <!-- ✅ Unified version -->
     </properties>
 
     <dependencyManagement>
