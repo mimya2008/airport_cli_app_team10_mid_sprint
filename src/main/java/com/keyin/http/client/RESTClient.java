@@ -19,7 +19,7 @@ public class RESTClient {
     private final ObjectMapper objectMapper;
     private String serverURL = "http://localhost:8080";
 
-    // Default constructor for production use
+    // Default constructor
     public RESTClient() {
         this(HttpClient.newHttpClient(), new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
