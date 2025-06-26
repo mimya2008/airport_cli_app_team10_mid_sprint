@@ -44,5 +44,20 @@ public class HTTPClientCLIApplicationTest {
         verify(mockRestClient).setServerURL("http://localhost:8080");
         verify(mockRestClient).getAllAirports();
     }
-}
 
+    @Test
+    public void testRun_withNoAirportData() {
+        // Arrange: Simulate valid user input but no data returned
+        String simulatedInput = "http://localhost:8080\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        when(mockRestClient.getAllAirports()).thenReturn(List.of());
+
+        // Act
+        cliApp.run();
+
+        // Assert
+        verify(mockRestClient).setServerURL("http://localhost:8080");
+        verify(mockRestClient).getAllAirports();
+    }
+}

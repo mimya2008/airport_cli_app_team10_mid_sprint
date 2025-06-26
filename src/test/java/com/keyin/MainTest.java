@@ -47,9 +47,107 @@ public class MainTest {
         verify(mockClient).getCitiesWithAirports();
     }
 
+    /**
+     * Test displaying aircraft per passenger (Option 2).
+     */
+    @Test
+    public void testDisplayAircraftPerPassenger() {
+        Passenger passenger = new Passenger(1L, "Alice", "Smith", "123456789");
+        Aircraft aircraft = new Aircraft(1L, "Boeing 747", "Air Canada", 300);
+        passenger.setAircraft(List.of(aircraft));
+        when(mockClient.getPassengersWithAircraft()).thenReturn(List.of(passenger));
+        when(mockScanner.nextLine()).thenReturn("2", "0");
+        app.run();
+        verify(mockClient).getPassengersWithAircraft();
+    }
 
+    /**
+     * Test displaying airports per aircraft (Option 3).
+     */
+    @Test
+    public void testDisplayAirportsPerAircraft() {
+        Aircraft aircraft = new Aircraft(1L, "Airbus A320", "WestJet", 150);
+        aircraft.setAirports(List.of(new Airport(1L, "Toronto Pearson", "YYZ")));
+        when(mockClient.getAircraftWithAirports()).thenReturn(List.of(aircraft));
+        when(mockScanner.nextLine()).thenReturn("3", "0");
+        app.run();
+        verify(mockClient).getAircraftWithAirports();
+    }
 
+    /**
+     * Test displaying airports used by each passenger (Option 4).
+     */
+    @Test
+    public void testDisplayAirportsUsedByPassenger() {
+        Passenger passenger = new Passenger(1L, "Bob", "Johnson", "555-0100");
+        Aircraft aircraft = new Aircraft(1L, "Cessna 172", "TestFly", 4);
+        Airport airport = new Airport(1L, "Gander Airport", "YQX");
+        aircraft.setAirports(List.of(airport));
+        passenger.setAircraft(List.of(aircraft));
+        when(mockClient.getPassengerAirportUsage()).thenReturn(List.of(passenger));
+        when(mockScanner.nextLine()).thenReturn("4", "0");
+        app.run();
+        verify(mockClient).getPassengerAirportUsage();
+    }
 
+    /**
+     * Test CLI behavior with invalid (non-numeric) input.
+     */
+    @Test
+    public void testInvalidInputHandling() {
+        when(mockScanner.nextLine()).thenReturn("abc", "0");
+        app.run();
+        verifyNoInteractions(mockClient);
+    }
 
+    /**
+     * Test the application exit option (Option 0).
+     */
+    @Test
+    public void testExitApplication() {
+        when(mockScanner.nextLine()).thenReturn("0");
+        app.run();
+        verifyNoInteractions(mockClient);
+    }
 
+    /**
+     * Test multiple valid choices in a single run (Options 1–4, then 0).
+     */
+    @Test
+    public void testMultipleValidChoicesSequence() {
+        City city = new City(1L, "Halifax", "YHZ", 400000);
+        city.setAirports(List.of(new Airport(1L, "Halifax Stanfield", "YHZ")));
+        Passenger passenger = new Passenger(1L, "Jane", "Doe", "555-2222");
+        Aircraft aircraft = new Aircraft(1L, "Boeing 777", "Air Canada", 280);
+        passenger.setAircraft(List.of(aircraft));
+        aircraft.setAirports(List.of(new Airport(2L, "Montréal-Trudeau", "YUL")));
+
+        when(mockClient.getCitiesWithAirports()).thenReturn(List.of(city));
+        when(mockClient.getPassengersWithAircraft()).thenReturn(List.of(passenger));
+        when(mockClient.getAircraftWithAirports()).thenReturn(List.of(aircraft));
+        when(mockClient.getPassengerAirportUsage()).thenReturn(List.of(passenger));
+        when(mockScanner.nextLine()).thenReturn("1", "2", "3", "4", "0");
+        app.run();
+        verify(mockClient).getCitiesWithAirports();
+        verify(mockClient).getPassengersWithAircraft();
+        verify(mockClient).getAircraftWithAirports();
+        verify(mockClient).getPassengerAirportUsage();
+    }
+
+    /**
+     * Test repeated invalid input before a valid one.
+     */
+    @Test
+    public void testRepeatedInvalidThenValidInput() {
+        City city = new City(1L, "Corner Brook", "YCF", 20000);
+        city.setAirports(List.of(new Airport(1L, "Corner Brook Regional", "YCF")));
+
+        when(mockClient.getCitiesWithAirports()).thenReturn(List.of(city));
+        when(mockScanner.nextLine()).thenReturn("abc", "-1", "999", "1", "0");
+
+        app.run();
+
+        verify(mockClient).getCitiesWithAirports();
+    }
 }
+
