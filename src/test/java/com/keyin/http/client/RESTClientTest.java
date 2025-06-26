@@ -63,5 +63,30 @@ public class RESTClientTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    public void testGetAllAirports_handlesMalformedJson() throws Exception {
+        String malformedJson = "not valid json";
+
+        when(mockResponse.statusCode()).thenReturn(200);
+        when(mockResponse.body()).thenReturn(malformedJson);
+        when(mockHttpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockResponse);
+
+        List<Airport> result = restClient.getAllAirports();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    public void testGetAllAirports_handlesIOException() throws Exception {
+        when(mockHttpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
+                .thenThrow(new java.io.IOException("Simulated IO exception"));
+
+        List<Airport> result = restClient.getAllAirports();
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
 }
 
