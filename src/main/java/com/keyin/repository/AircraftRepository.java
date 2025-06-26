@@ -1,4 +1,7 @@
 package com.keyin.repository;
 
-public class AircraftRepository {
-}
+import com.keyin.domain.Aircraft;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AircraftRepository extends JpaRepository<Aircraft, Long> {}
+
