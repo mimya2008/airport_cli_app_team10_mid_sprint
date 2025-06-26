@@ -18,19 +18,19 @@ public class PassengerController {
     @Autowired
     private PassengerRepository passengerRepository;
 
-    // Get all passengers
+    // To get all passengers
     @GetMapping
     public List<Passenger> getAllPassengers() {
         return passengerRepository.findAll();
     }
 
-    // Get a specific passenger by ID
+    // To get a specific passenger by ID
     @GetMapping("/{id}")
     public Passenger getPassengerById(@PathVariable Long id) {
         return passengerRepository.findById(id).orElse(null);
     }
 
-    // Get all aircraft flown by a specific passenger
+    // To get all aircraft flown by a specific passenger
     @GetMapping("/{id}/aircraft")
     public List<Aircraft> getAircraftByPassenger(@PathVariable Long id) {
         Passenger passenger = passengerRepository.findById(id).orElse(null);
@@ -39,7 +39,7 @@ public class PassengerController {
                 : List.of();
     }
 
-    // Get all airports used by aircraft flown by the passenger
+    // To get all airports used by aircraft flown by the passenger
     @GetMapping("/{id}/airports")
     public List<Airport> getAirportsByPassenger(@PathVariable Long id) {
         Passenger passenger = passengerRepository.findById(id).orElse(null);
